@@ -35,10 +35,27 @@ class _MyAppContent extends StatelessWidget {
                   itemCount: snapshot.data.length,
                   itemBuilder: (_, index) {
                     final item = snapshot.data[index];
-                    return CheckboxListTile(
-                      title: Text(item.name),
-                      value: item.done,
-                      onChanged: (value) => _bloc.update(item, value)
+
+                    return Dismissible(
+                      background: Container(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Icon(Icons.delete, color: Colors.white)
+                          ),
+                        ),
+                        color: Colors.red
+                      ),
+                      key: Key(item.name),
+                      onDismissed: (direction) {
+                        _bloc.delete(item);
+                      },
+                      child: CheckboxListTile(
+                        title: Text(item.name),
+                        value: item.done,
+                        onChanged: (value) => _bloc.update(item, value)
+                      )
                     );
                   }
                 );

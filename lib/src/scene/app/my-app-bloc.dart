@@ -28,4 +28,8 @@ class MyAppBloc {
     await ToDoService().create(Todo(name, false));
   }
 
+  delete(Todo item) {
+    item.reference.delete();
+  }
+
 }
