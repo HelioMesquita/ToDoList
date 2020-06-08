@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Todo {
+class ToDo {
 
   String name;
   bool done;
   DocumentReference reference;
 
-  Todo(this.name, this.done);
+  ToDo(this.name, this.done);
 
-  Todo.fromMap(DocumentSnapshot document) {
+  ToDo.fromMap(DocumentSnapshot document) {
     this.reference = document.reference;
     this.done = document.data['done'];
     this.name = document.data['name'];

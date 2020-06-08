@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo/src/models/to-do.dart';
 import 'package:todo/src/scene/app/my-app-bloc.dart';
+import 'package:todo/src/service/to-do.dart';
 
 class MyApp extends StatelessWidget {
 
@@ -19,7 +20,7 @@ class _MyAppContent extends StatelessWidget {
 
     @override
     Widget build(BuildContext context) {
-      _bloc = MyAppBloc();
+      _bloc = MyAppBloc(ToDoService());
 
       return Scaffold(
         appBar: new AppBar(
@@ -27,39 +28,40 @@ class _MyAppContent extends StatelessWidget {
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: StreamBuilder<List<Todo>>(
-              initialData: [],
-              stream: _bloc.output,
-              builder: (context, snapshot) {
-                return ListView.builder(
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (_, index) {
-                    final item = snapshot.data[index];
+          child: StreamBuilder<List<ToDo>>(
+            initialData: [],
+            stream: _bloc.output,
+            builder: (context, snapshot) {
+              return ListView.builder(
+                itemCount: snapshot.data.length,
+                itemBuilder: (_, index) {
+                  final item = snapshot.data[index];
 
-                    return Dismissible(
-                      background: Container(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Icon(Icons.delete, color: Colors.white)
-                          ),
+                  return Dismissible(
+                    background: Container(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Icon(Icons.delete, color: Colors.white)
                         ),
-                        color: Colors.red
                       ),
-                      key: Key(item.name),
-                      onDismissed: (direction) {
-                        _bloc.delete(item);
-                      },
-                      child: CheckboxListTile(
-                        title: Text(item.name),
-                        value: item.done,
-                        onChanged: (value) => _bloc.update(item, value)
-                      )
-                    );
-                  }
-                );
-              },
+                      color: Colors.red
+                    ),
+                    key: Key(item.name),
+                    onDismissed: (direction) {
+                      _bloc.delete(item);
+                    },
+                    child: CheckboxListTile(
+                      title: Text(item.name),
+                      value: item.done,
+                      onChanged: (value) => _bloc.update(item, value)
+                    )
+                  );
+
+                }
+              );
+            },
           ),
         ),
         floatingActionButton: FloatingActionButton(
@@ -98,7 +100,8 @@ class _MyAppContent extends StatelessWidget {
               ),
             ],
           );
-      });
+        }
+      );
     }
 
 }
