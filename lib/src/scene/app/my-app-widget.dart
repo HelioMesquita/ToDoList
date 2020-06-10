@@ -21,7 +21,7 @@ class _MyAppContent extends StatelessWidget {
 
       return Scaffold(
         appBar: new AppBar(
-          title: new Text('Todo List'),
+          title: new Text('To Do List'),
         ),
         body: Container()
       );
